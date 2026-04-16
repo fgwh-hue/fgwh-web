@@ -1,0 +1,55 @@
+@mixin scrollbar($size: 7px, $color: rgba(0, 0, 0, 0.5)) {
+  scrollbar-width: thin;
+  scrollbar-color: $color transparent;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color;
+    border-radius: $size;
+    border: 0;
+
+    &:hover {
+      background-color: $color;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}
+
+@mixin scrollbar-light($size: 7px, $color: rgba(255, 255, 255, 0.5)) {
+  scrollbar-width: thin;
+  scrollbar-color: $color transparent;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color;
+    border-radius: $size;
+    border: 0;
+
+    &:hover {
+      background-color: $color;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+}

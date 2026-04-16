@@ -1,0 +1,711 @@
+/* ============================================
+   Interactive Effects - Micro-interactions & Animations
+   ============================================ */
+
+/* --------------------------------------------
+   Base Transition Utilities
+-------------------------------------------- */
+.transition-all-200 {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-all-300 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-transform {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-colors {
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.transition-shadow {
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-opacity {
+  transition: opacity 0.3s ease;
+}
+
+/* --------------------------------------------
+   Hover Effects - Scale
+-------------------------------------------- */
+.hover-scale-102:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale-105:hover {
+  transform: scale(1.05);
+}
+
+.hover-scale-110:hover {
+  transform: scale(1.1);
+}
+
+.hover-scale-95:hover {
+  transform: scale(0.95);
+}
+
+/* --------------------------------------------
+   Hover Effects - Translate
+-------------------------------------------- */
+.hover-translate-y--4:hover {
+  transform: translateY(-4px);
+}
+
+.hover-translate-y-4:hover {
+  transform: translateY(4px);
+}
+
+.hover-translate-x-4:hover {
+  transform: translateX(4px);
+}
+
+.hover-translate-x--4:hover {
+  transform: translateX(-4px);
+}
+
+/* --------------------------------------------
+   Hover Effects - Shadow
+-------------------------------------------- */
+.hover-shadow-lg:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover-shadow-xl:hover {
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hover-shadow-2xl:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.hover-shadow-primary:hover {
+  box-shadow: 0 0 20px rgba(64, 158, 255, 0.4);
+}
+
+.hover-shadow-success:hover {
+  box-shadow: 0 0 20px rgba(103, 194, 58, 0.4);
+}
+
+.hover-shadow-warning:hover {
+  box-shadow: 0 0 20px rgba(230, 162, 60, 0.4);
+}
+
+.hover-shadow-error:hover {
+  box-shadow: 0 0 20px rgba(245, 108, 108, 0.4);
+}
+
+/* --------------------------------------------
+   Interactive Card Effects
+-------------------------------------------- */
+.interactive-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.interactive-card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Card Shine Effect */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.card-shine:hover::before {
+  left: 100%;
+}
+
+/* --------------------------------------------
+   Button Effects
+-------------------------------------------- */
+.btn-pulse {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-pulse::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.6s ease,
+    height 0.6s ease;
+}
+
+.btn-pulse:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Button Hover Glow */
+.btn-glow-primary:hover {
+  box-shadow: 0 0 20px rgba(64, 158, 255, 0.5);
+}
+
+.btn-glow-success:hover {
+  box-shadow: 0 0 20px rgba(103, 194, 58, 0.5);
+}
+
+/* --------------------------------------------
+   List Item Hover Effects
+-------------------------------------------- */
+.list-item-hover {
+  transition: all 0.2s ease;
+}
+
+.list-item-hover:hover {
+  background: rgba(64, 158, 255, 0.05);
+  transform: translateX(4px);
+}
+
+.list-item-hover:active {
+  transform: translateX(0);
+}
+
+/* --------------------------------------------
+   Click Feedback
+-------------------------------------------- */
+.click-scale:active {
+  transform: scale(0.95);
+}
+
+.click-bounce:active {
+  animation: bounce-click 0.3s;
+}
+
+@keyframes bounce-click {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+}
+
+/* --------------------------------------------
+   Loading States
+-------------------------------------------- */
+.loading-skeleton {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.06) 25%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* --------------------------------------------
+   Stagger Animation Delays
+-------------------------------------------- */
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+.stagger-6 {
+  animation-delay: 0.6s;
+}
+
+/* --------------------------------------------
+   Entrance Animations
+-------------------------------------------- */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-down {
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.5s ease forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-right {
+  animation: fadeInRight 0.5s ease forwards;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------
+   Focus States
+-------------------------------------------- */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(64, 158, 255, 0.3);
+}
+
+.focus-ring-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(64, 158, 255, 0.4);
+}
+
+.focus-ring-success:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(103, 194, 58, 0.4);
+}
+
+.focus-ring-error:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(245, 108, 108, 0.4);
+}
+
+/* --------------------------------------------
+   Active States
+-------------------------------------------- */
+.active-scale:active {
+  transform: scale(0.96);
+}
+
+.active-lift:active {
+  transform: translateY(2px);
+}
+
+/* --------------------------------------------
+   Disabled States
+-------------------------------------------- */
+.disabled-opacity {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled-scale {
+  transform: scale(0.98);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* --------------------------------------------
+   Scroll Reveal Animation
+-------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --------------------------------------------
+   Float Animation
+-------------------------------------------- */
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-slow {
+  animation: float 4s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* --------------------------------------------
+   Shake Animation
+-------------------------------------------- */
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* --------------------------------------------
+   Pulse Animation
+-------------------------------------------- */
+.pulse-once {
+  animation: pulse-once 0.3s ease-out;
+}
+
+@keyframes pulse-once {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------
+   Progress Bar Animation
+-------------------------------------------- */
+.progress-bar-animated {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-animated::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progress-shimmer 2s infinite;
+}
+
+@keyframes progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* --------------------------------------------
+   Number Counter Animation
+-------------------------------------------- */
+.count-up {
+  display: inline-block;
+}
+
+/* --------------------------------------------
+   Tooltip Animation
+-------------------------------------------- */
+.tooltip-animated {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: all 0.2s ease;
+}
+
+.tooltip-animated.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------
+   Tab Switch Animation
+-------------------------------------------- */
+.tab-indicator {
+  position: relative;
+}
+
+.tab-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tab-indicator.active::after,
+.tab-indicator:hover::after {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------
+   Skeleton Loading Pulse
+-------------------------------------------- */
+.skeleton-pulse {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* --------------------------------------------
+   Background Hover Effects
+-------------------------------------------- */
+.bg-hover-light:hover {
+  background-color: rgba(64, 158, 255, 0.05);
+}
+
+.bg-hover-success:hover {
+  background-color: rgba(103, 194, 58, 0.1);
+}
+
+.bg-hover-warning:hover {
+  background-color: rgba(230, 162, 60, 0.1);
+}
+
+.bg-hover-error:hover {
+  background-color: rgba(245, 108, 108, 0.1);
+}
+
+/* --------------------------------------------
+   Border Hover Effects
+-------------------------------------------- */
+.border-hover-primary:hover {
+  border-color: rgba(64, 158, 255, 0.5);
+}
+
+.border-hover-success:hover {
+  border-color: rgba(103, 194, 58, 0.5);
+}
+
+/* --------------------------------------------
+   Image Hover Effects
+-------------------------------------------- */
+.img-zoom-hover {
+  overflow: hidden;
+}
+
+.img-zoom-hover img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.img-zoom-hover:hover img {
+  transform: scale(1.1);
+}
+
+.img-grayscale-hover {
+  overflow: hidden;
+}
+
+.img-grayscale-hover img {
+  transition: filter 0.3s ease;
+}
+
+.img-grayscale-hover:hover img {
+  filter: grayscale(0%);
+}
+
+/* --------------------------------------------
+   Cursor Effects
+-------------------------------------------- */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------
+   Selection Highlight
+-------------------------------------------- */
+::selection {
+  background: rgba(64, 158, 255, 0.3);
+}
+
+::selection {
+  background: rgba(64, 158, 255, 0.3);
+  color: inherit;
+}
+
+/* --------------------------------------------
+   Reduced Motion
+-------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

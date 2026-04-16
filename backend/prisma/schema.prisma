@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleCode {
+  SUPER_ADMIN
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  nickname  String?
+  avatar    String?
+  roleCode  RoleCode @default(STUDENT)
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   Student?
+  teacher   Teacher?
+
+  @@map("users")
+}
+
+model Student {
+  id         String   @id @default(uuid())
+  studentNo  String   @unique
+  name       String
+  gender     String?
+  phone      String?
+  email      String?
+  major      String?
+  className  String?
+  enrollYear Int?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?  @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("students")
+}
+
+model Teacher {
+  id         String   @id @default(uuid())
+  teacherNo  String   @unique
+  name       String
+  gender     String?
+  phone      String?
+  email      String?
+  title      String?
+  department String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?  @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("teachers")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}

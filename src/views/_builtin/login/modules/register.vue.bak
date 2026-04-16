@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import { computed, reactive } from 'vue';
+import { fetchRegister } from '@/service/api/auth';
+import { useRouterPush } from '@/hooks/common/router';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { $t } from '@/locales';
+
+defineOptions({
+  name: 'Register'
+});
+
+const { toggleLoginModule } = useRouterPush();
+const { validate } = useNaiveForm();
+
+interface FormModel {
+  name: string;
+  password: string;
+  confirmPassword: string;
+  role: 'STUDENT' | 'TEACHER';
+}
