@@ -58,7 +58,6 @@ declare module "@elegant-router/types" {
     "manage": "/manage";
     "manage_menu": "/manage/menu";
     "manage_permission": "/manage/permission";
-    "manage_role": "/manage/role";
     "manage_student": "/manage/student";
     "manage_system-monitor": "/manage/system-monitor";
     "manage_teacher": "/manage/teacher";
@@ -216,7 +215,6 @@ declare module "@elegant-router/types" {
     | "home"
     | "manage_menu"
     | "manage_permission"
-    | "manage_role"
     | "manage_student"
     | "manage_system-monitor"
     | "manage_teacher"

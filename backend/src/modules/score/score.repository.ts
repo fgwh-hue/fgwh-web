@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service';
+import type { PrismaService } from '../../database/prisma.service';
 import type { CreateScoreDto } from './dto/create-score.dto';
 import type { UpdateScoreDto } from './dto/update-score.dto';
 import type { QueryScoreDto } from './dto/query-score.dto';

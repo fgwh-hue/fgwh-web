@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service';
+import type { PrismaService } from '../../database/prisma.service';
 import type { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import type { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 import type { QueryAnnouncementDto } from './dto/query-announcement.dto';

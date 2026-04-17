@@ -314,24 +314,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
-        name: 'manage_role',
-        path: '/manage/role',
-        component: 'view.manage_role',
-        meta: {
-          title: 'manage_role',
-          i18nKey: 'route.manage_role',
-          icon: 'carbon:user-role',
-          order: 2,
-          roles: ['R_SUPER']
-        }
-      },
-      {
         name: 'manage_student',
         path: '/manage/student',
         component: 'view.manage_student',
         meta: {
           title: 'manage_student',
-          i18nKey: 'route.manage_student'
+          i18nKey: 'route.manage_student',
+          icon: 'ph:student',
+          order: 7,
+          roles: ['R_ADMIN']
         }
       },
       {
@@ -352,7 +343,10 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.manage_teacher',
         meta: {
           title: 'manage_teacher',
-          i18nKey: 'route.manage_teacher'
+          i18nKey: 'route.manage_teacher',
+          icon: 'ph:chalkboard-teacher',
+          order: 8,
+          roles: ['R_ADMIN']
         }
       },
       {

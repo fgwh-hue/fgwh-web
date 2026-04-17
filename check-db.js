@@ -15,7 +15,7 @@ async function checkData() {
 
   console.log('找到的学生数据:');
   students.forEach((s, i) => {
-    console.log(`\n${i+1}. ID: ${s.id}`);
+    console.log(`\n${i + 1}. ID: ${s.id}`);
     console.log(`   studentNo: ${s.studentNo}`);
     console.log(`   name: ${s.name}`);
     console.log(`   gender: ${s.gender}`);

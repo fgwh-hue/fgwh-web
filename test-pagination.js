@@ -23,7 +23,7 @@ async function testPagination() {
   // 测试4: 检查数据库实际数量
   console.log('\n4. 数据库记录:');
   r3.data.data.records.forEach((s, i) => {
-    console.log(`   ${i+1}. ${s.studentNo} - ${s.studentName}`);
+    console.log(`   ${i + 1}. ${s.studentNo} - ${s.studentName}`);
   });
 }
 

@@ -34,8 +34,22 @@ export class StudentRepository {
   }
 
   async create(createStudentDto: CreateStudentDto): Promise<StudentResponse> {
+    const data: Prisma.StudentCreateInput = {
+      studentNo: createStudentDto.studentNo,
+      name: createStudentDto.name,
+      gender: createStudentDto.gender,
+      phone: createStudentDto.phone,
+      email: createStudentDto.email,
+      major: createStudentDto.major,
+      className: createStudentDto.className,
+      enrollYear: createStudentDto.enrollYear,
+      ...(createStudentDto.userId && {
+        user: { connect: { id: createStudentDto.userId } }
+      })
+    };
+
     const student = await this.prisma.student.create({
-      data: createStudentDto,
+      data,
       include: {
         user: {
           select: {
@@ -52,9 +66,11 @@ export class StudentRepository {
   }
 
   async findAll(queryStudentDto: QueryStudentDto): Promise<StudentListResponse> {
-    const page = queryStudentDto.current || queryStudentDto.page || 1;
-    const pageSize = queryStudentDto.size || queryStudentDto.pageSize || 10;
+    const page = Number(queryStudentDto.page || queryStudentDto.current || 1);
+    const pageSize = Number(queryStudentDto.pageSize || queryStudentDto.size || 10);
     const skip = (page - 1) * pageSize;
+
+    console.log('findAll params:', { page, pageSize, skip, queryStudentDto });
 
     const {
       studentNo,
@@ -129,9 +145,20 @@ export class StudentRepository {
   }
 
   async update(id: string, updateStudentDto: UpdateStudentDto): Promise<StudentResponse> {
+    const data: Prisma.StudentUpdateInput = {
+      ...(updateStudentDto.studentNo && { studentNo: updateStudentDto.studentNo }),
+      ...(updateStudentDto.name && { name: updateStudentDto.name }),
+      ...(updateStudentDto.gender !== undefined && { gender: updateStudentDto.gender }),
+      ...(updateStudentDto.phone !== undefined && { phone: updateStudentDto.phone }),
+      ...(updateStudentDto.email !== undefined && { email: updateStudentDto.email }),
+      ...(updateStudentDto.major !== undefined && { major: updateStudentDto.major }),
+      ...(updateStudentDto.className !== undefined && { className: updateStudentDto.className }),
+      ...(updateStudentDto.enrollYear !== undefined && { enrollYear: updateStudentDto.enrollYear })
+    };
+
     const student = await this.prisma.student.update({
       where: { id },
-      data: updateStudentDto,
+      data,
       include: {
         user: {
           select: {

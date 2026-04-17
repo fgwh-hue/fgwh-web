@@ -204,7 +204,6 @@ const routeMap: RouteMap = {
   "manage": "/manage",
   "manage_menu": "/manage/menu",
   "manage_permission": "/manage/permission",
-  "manage_role": "/manage/role",
   "manage_student": "/manage/student",
   "manage_system-monitor": "/manage/system-monitor",
   "manage_teacher": "/manage/teacher",

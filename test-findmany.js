@@ -19,7 +19,7 @@ async function testFindMany() {
 
   console.log(`返回 ${students.length} 条记录`);
   students.slice(0, 5).forEach((s, i) => {
-    console.log(`${i+1}. ${s.studentNo} - ${s.name}`);
+    console.log(`${i + 1}. ${s.studentNo} - ${s.name}`);
   });
 
   const count = await prisma.student.count();

@@ -202,8 +202,17 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
       addAuthRoutes(filteredAuthRoutes);
     }
 
-    // 所有角色都使用 'home' 作为首页，由 home/index.vue 动态渲染对应角色的页面
-    const home: LastLevelRouteKey = 'home';
+    // 根据用户角色设置不同的首页
+    let home: LastLevelRouteKey = 'home';
+
+    if (authStore.userInfo.roles.includes('R_STUDENT')) {
+      home = 'student_dashboard';
+    } else if (authStore.userInfo.roles.includes('R_TEACHER')) {
+      home = 'teacher_dashboard';
+    } else if (authStore.userInfo.roles.includes('R_ADMIN') || authStore.userInfo.roles.includes('R_SUPER')) {
+      home = 'home';
+    }
+
     setRouteHome(home);
 
     handleConstantAndAuthRoutes();

@@ -16,7 +16,18 @@ export class TeacherController {
   @Post()
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.ADMIN)
   @ApiOperation({ summary: '创建教师' })
-  create(@Body() createTeacherDto: CreateTeacherDto) {
+  create(@Body() body: any) {
+    // 字段映射: 前端字段名 -> 后端字段名
+    const createTeacherDto: CreateTeacherDto = {
+      teacherNo: body.teacherNo,
+      name: body.teacherName,
+      gender: body.teacherGender === 1 ? '男' : body.teacherGender === 2 ? '女' : undefined,
+      phone: body.teacherPhone,
+      email: body.teacherEmail,
+      title: body.teacherTitle,
+      department: body.teacherDepartment,
+      userId: body.userId
+    };
     return this.teacherService.create(createTeacherDto);
   }
 
@@ -36,7 +47,17 @@ export class TeacherController {
   @Patch(':id')
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.ADMIN, RoleCode.TEACHER)
   @ApiOperation({ summary: '更新教师' })
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateTeacherDto: UpdateTeacherDto) {
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() body: any) {
+    // 字段映射: 前端字段名 -> 后端字段名
+    const updateTeacherDto: UpdateTeacherDto = {
+      teacherNo: body.teacherNo,
+      name: body.teacherName,
+      gender: body.teacherGender === 1 ? '男' : body.teacherGender === 2 ? '女' : undefined,
+      phone: body.teacherPhone,
+      email: body.teacherEmail,
+      title: body.teacherTitle,
+      department: body.teacherDepartment
+    };
     return this.teacherService.update(id, updateTeacherDto);
   }
 

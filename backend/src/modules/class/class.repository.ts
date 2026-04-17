@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service';
+import type { PrismaService } from '../../database/prisma.service';
 import type { CreateClassDto } from './dto/create-class.dto';
 import type { UpdateClassDto } from './dto/update-class.dto';
 import type { QueryClassDto } from './dto/query-class.dto';

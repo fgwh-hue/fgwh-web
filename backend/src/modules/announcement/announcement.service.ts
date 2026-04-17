@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AnnouncementRepository } from './announcement.repository';
+import type { AnnouncementRepository } from './announcement.repository';
 import type { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import type { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 import type { QueryAnnouncementDto } from './dto/query-announcement.dto';

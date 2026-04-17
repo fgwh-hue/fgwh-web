@@ -2,7 +2,7 @@
 /**
  * 后端 API 自动化测试脚本
  * 测试学生列表和教师列表的新增、编辑功能
- * 
+ *
  * 运行方式: node test-backend-api.js
  */
 
@@ -12,12 +12,12 @@ const API_BASE = 'http://localhost:3001/api/v1';
 
 // 颜色输出
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  red: '\x1b[31m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m'
+  reset: '\x1B[0m',
+  green: '\x1B[32m',
+  red: '\x1B[31m',
+  yellow: '\x1B[33m',
+  blue: '\x1B[34m',
+  cyan: '\x1B[36m'
 };
 
 function log(color, msg) {
@@ -74,21 +74,42 @@ async function test() {
       testCount++;
       try {
         log(colors.blue, `  测试 ${testCount}: 新增学生 "${student.name}"`);
-        log(colors.blue, `  学号: ${student.studentNo}, 姓名: ${student.name}, 性别: ${student.gender === '1' ? '男' : '女'}`);
+        log(
+          colors.blue,
+          `  学号: ${student.studentNo}, 姓名: ${student.name}, 性别: ${student.gender === '1' ? '男' : '女'}`
+        );
 
         const response = await axios.post(`${API_BASE}/students`, student);
-        
+
         if (response.data && response.data.code === '0000' && response.data.data) {
           log(colors.green, `  ✓✓ 成功: 学生 ${student.name} 已添加 (ID: ${response.data.data.id})`);
           studentIds.push(response.data.data.id);
-          results.push({ test: testCount, module: '学生新增', name: student.name, status: '成功', id: response.data.data.id });
+          results.push({
+            test: testCount,
+            module: '学生新增',
+            name: student.name,
+            status: '成功',
+            id: response.data.data.id
+          });
         } else {
           log(colors.red, `  ✗✗ 失败: ${response.data?.message || '未知错误'}`);
-          results.push({ test: testCount, module: '学生新增', name: student.name, status: '失败', message: response.data?.message });
+          results.push({
+            test: testCount,
+            module: '学生新增',
+            name: student.name,
+            status: '失败',
+            message: response.data?.message
+          });
         }
       } catch (error) {
         log(colors.red, `  ✗✗ 异常: ${error.response?.data?.message || error.message}`);
-        results.push({ test: testCount, module: '学生新增', name: student.name, status: '异常', message: error.response?.data?.message || error.message });
+        results.push({
+          test: testCount,
+          module: '学生新增',
+          name: student.name,
+          status: '异常',
+          message: error.response?.data?.message || error.message
+        });
       }
     }
 
@@ -116,17 +137,29 @@ async function test() {
           log(colors.blue, `  更新数据: ${JSON.stringify(update.data)}`);
 
           const response = await axios.patch(`${API_BASE}/students/${update.id}`, update.data);
-          
+
           if (response.data && response.data.code === '0000') {
             log(colors.green, `  ✓✓ 成功: 学生已更新`);
             results.push({ test: testCount, module: '学生编辑', name: update.expectedName, status: '成功' });
           } else {
             log(colors.red, `  ✗✗ 失败: ${response.data?.message}`);
-            results.push({ test: testCount, module: '学生编辑', name: update.expectedName, status: '失败', message: response.data?.message });
+            results.push({
+              test: testCount,
+              module: '学生编辑',
+              name: update.expectedName,
+              status: '失败',
+              message: response.data?.message
+            });
           }
         } catch (error) {
           log(colors.red, `  ✗✗ 异常: ${error.response?.data?.message || error.message}`);
-          results.push({ test: testCount, module: '学生编辑', name: update.expectedName, status: '异常', message: error.response?.data?.message || error.message });
+          results.push({
+            test: testCount,
+            module: '学生编辑',
+            name: update.expectedName,
+            status: '异常',
+            message: error.response?.data?.message || error.message
+          });
         }
       }
     }
@@ -173,18 +206,36 @@ async function test() {
         log(colors.blue, `  工号: ${teacher.teacherNo}, 姓名: ${teacher.name}, 职称: ${teacher.title}`);
 
         const response = await axios.post(`${API_BASE}/teachers`, teacher);
-        
+
         if (response.data && response.data.code === '0000' && response.data.data) {
           log(colors.green, `  ✓✓ 成功: 教师 ${teacher.name} 已添加 (ID: ${response.data.data.id})`);
           teacherIds.push(response.data.data.id);
-          results.push({ test: testCount, module: '教师新增', name: teacher.name, status: '成功', id: response.data.data.id });
+          results.push({
+            test: testCount,
+            module: '教师新增',
+            name: teacher.name,
+            status: '成功',
+            id: response.data.data.id
+          });
         } else {
           log(colors.red, `  ✗✗ 失败: ${response.data?.message || '未知错误'}`);
-          results.push({ test: testCount, module: '教师新增', name: teacher.name, status: '失败', message: response.data?.message });
+          results.push({
+            test: testCount,
+            module: '教师新增',
+            name: teacher.name,
+            status: '失败',
+            message: response.data?.message
+          });
         }
       } catch (error) {
         log(colors.red, `  ✗✗ 异常: ${error.response?.data?.message || error.message}`);
-        results.push({ test: testCount, module: '教师新增', name: teacher.name, status: '异常', message: error.response?.data?.message || error.message });
+        results.push({
+          test: testCount,
+          module: '教师新增',
+          name: teacher.name,
+          status: '异常',
+          message: error.response?.data?.message || error.message
+        });
         log(colors.red, `  详细错误: ${JSON.stringify(error.response?.data)}`);
       }
     }
@@ -213,17 +264,29 @@ async function test() {
           log(colors.blue, `  更新数据: ${JSON.stringify(update.data)}`);
 
           const response = await axios.patch(`${API_BASE}/teachers/${update.id}`, update.data);
-          
+
           if (response.data && response.data.code === '0000') {
             log(colors.green, `  ✓✓ 成功: 教师已更新`);
             results.push({ test: testCount, module: '教师编辑', name: update.expectedName, status: '成功' });
           } else {
             log(colors.red, `  ✗✗ 失败: ${response.data?.message}`);
-            results.push({ test: testCount, module: '教师编辑', name: update.expectedName, status: '失败', message: response.data?.message });
+            results.push({
+              test: testCount,
+              module: '教师编辑',
+              name: update.expectedName,
+              status: '失败',
+              message: response.data?.message
+            });
           }
         } catch (error) {
           log(colors.red, `  ✗✗ 异常: ${error.response?.data?.message || error.message}`);
-          results.push({ test: testCount, module: '教师编辑', name: update.expectedName, status: '异常', message: error.response?.data?.message || error.message });
+          results.push({
+            test: testCount,
+            module: '教师编辑',
+            name: update.expectedName,
+            status: '异常',
+            message: error.response?.data?.message || error.message
+          });
           log(colors.red, `  详细错误: ${JSON.stringify(error.response?.data)}`);
         }
       }
@@ -238,10 +301,22 @@ async function test() {
         const { records, total, current, size } = response.data.data;
         log(colors.green, `  ✓✓ 成功: 获取学生列表 (总数: ${total}, 当前页: ${current}, 每页: ${size})`);
         log(colors.blue, `  返回字段: records(${records.length}条), total, current, size`);
-        results.push({ test: testCount, module: '学生列表查询', name: '列表', status: '成功', message: `总数:${total}, 格式正确` });
+        results.push({
+          test: testCount,
+          module: '学生列表查询',
+          name: '列表',
+          status: '成功',
+          message: `总数:${total}, 格式正确`
+        });
       } else {
         log(colors.red, `  ✗✗ 失败: ${response.data?.message}`);
-        results.push({ test: testCount, module: '学生列表查询', name: '列表', status: '失败', message: response.data?.message });
+        results.push({
+          test: testCount,
+          module: '学生列表查询',
+          name: '列表',
+          status: '失败',
+          message: response.data?.message
+        });
       }
     } catch (error) {
       log(colors.red, `  ✗✗ 异常: ${error.message}`);
@@ -257,22 +332,33 @@ async function test() {
         const { records, total, current, size } = response.data.data;
         log(colors.green, `  ✓✓ 成功: 获取教师列表 (总数: ${total}, 当前页: ${current}, 每页: ${size})`);
         log(colors.blue, `  返回字段: records(${records.length}条), total, current, size`);
-        results.push({ test: testCount, module: '教师列表查询', name: '列表', status: '成功', message: `总数:${total}, 格式正确` });
+        results.push({
+          test: testCount,
+          module: '教师列表查询',
+          name: '列表',
+          status: '成功',
+          message: `总数:${total}, 格式正确`
+        });
       } else {
         log(colors.red, `  ✗✗ 失败: ${response.data?.message}`);
-        results.push({ test: testCount, module: '教师列表查询', name: '列表', status: '失败', message: response.data?.message });
+        results.push({
+          test: testCount,
+          module: '教师列表查询',
+          name: '列表',
+          status: '失败',
+          message: response.data?.message
+        });
       }
     } catch (error) {
       log(colors.red, `  ✗✗ 异常: ${error.message}`);
       results.push({ test: testCount, module: '教师列表查询', name: '列表', status: '异常', message: error.message });
     }
-
   } catch (error) {
     log(colors.red, `\n测试执行异常: ${error.message}`);
   }
 
   // ========== 生成测试报告 ==========
-  log(colors.cyan, '\n' + '='.repeat(70));
+  log(colors.cyan, `\n${'='.repeat(70)}`);
   log(colors.cyan, '📊 测试执行报告');
   log(colors.cyan, '='.repeat(70));
 
@@ -283,7 +369,7 @@ async function test() {
   log(colors.blue, `测试总数: ${testCount}`);
   log(colors.blue, `成功: ${successCount}`);
   log(colors.blue, `失败: ${failCount}`);
-  log(colors.blue, `成功率: ${testCount > 0 ? (successCount / testCount * 100).toFixed(1) : 0}%\n`);
+  log(colors.blue, `成功率: ${testCount > 0 ? ((successCount / testCount) * 100).toFixed(1) : 0}%\n`);
 
   log(colors.blue, '详细测试结果:');
   log(colors.blue, '┌──────┬──────────┬────────┬──────┬────────────────────┐');
@@ -302,9 +388,9 @@ async function test() {
 
   log(colors.blue, '└──────┴──────────┴────────┴──────┴────────────────────┘');
 
-  log(colors.cyan, '\n' + '='.repeat(70));
+  log(colors.cyan, `\n${'='.repeat(70)}`);
   log(colors.cyan, '✅ 测试执行完成');
-  log(colors.cyan, '='.repeat(70) + '\n');
+  log(colors.cyan, `${'='.repeat(70)}\n`);
 }
 
 test().catch(console.error);

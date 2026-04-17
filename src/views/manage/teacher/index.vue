@@ -336,6 +336,21 @@ function viewProfile(id: string) {
         :pagination="mobilePagination"
         :row-class-name="() => 'transition-colors hover:bg-primary/5'"
         class="sm:h-full"
+        @update:page="
+          page => {
+            console.log('NDataTable update:page:', page);
+            pagination.page = page;
+            getDataByPage(page);
+          }
+        "
+        @update:page-size="
+          pageSize => {
+            console.log('NDataTable update:page-size:', pageSize);
+            pagination.pageSize = pageSize;
+            pagination.page = 1;
+            getDataByPage(1);
+          }
+        "
       />
       <TeacherOperateDrawer
         v-model:visible="drawerVisible"

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
-import { PrismaService } from '../../database/prisma.service';
+import type { PrismaService } from '../../database/prisma.service';
 import type { QueryOperationLogDto } from './dto/query-operation-log.dto';
 import type { OperationLogListResponse, OperationLogResponse } from './entities/operation-log-response';
 

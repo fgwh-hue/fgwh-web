@@ -1,21 +1,13 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
-import type { Ref } from 'vue';
-import { NButton, NPopconfirm, NProgress, NTag, NTree } from 'naive-ui';
+import { NButton, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { yesOrNoRecord } from '@/constants/common';
-import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
-import { useTable, useTableOperate } from '@/hooks/common/table';
+import { fetchGetAllPages } from '@/service/api';
 import { $t } from '@/locales';
 import SvgIcon from '@/components/custom/svg-icon.vue';
-import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 import MenuGuide from './modules/menu-guide.vue';
 
-const appStore = useAppStore();
 const { bool: visible, setTrue: openModal } = useBoolean();
-const wrapperRef = ref<HTMLElement | null>(null);
 
 const menuStats = ref({
   total: 156,
@@ -39,176 +31,6 @@ const quickActions = ref([
   { label: '导出配置', icon: 'ph:download-simple', type: 'default' as const }
 ]);
 
-const menuTreeData = ref([
-  {
-    key: '1',
-    label: '首页',
-    children: [
-      { key: '1-1', label: '仪表盘' },
-      { key: '1-2', label: '数据分析' }
-    ]
-  },
-  {
-    key: '2',
-    label: '学生端',
-    children: [
-      { key: '2-1', label: '学习进度' },
-      { key: '2-2', label: '作业中心' },
-      { key: '2-3', label: 'AI助教' }
-    ]
-  },
-  {
-    key: '3',
-    label: '教师端',
-    children: [
-      { key: '3-1', label: '课程管理' },
-      { key: '3-2', label: '学生管理' },
-      { key: '3-3', label: '作业管理' }
-    ]
-  },
-  {
-    key: '4',
-    label: '管理端',
-    children: [
-      { key: '4-1', label: '用户管理' },
-      { key: '4-2', label: '角色管理' },
-      { key: '4-3', label: '菜单管理' },
-      { key: '4-4', label: '系统监控' }
-    ]
-  }
-]);
-
-const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
-  apiFn: fetchGetMenuList,
-  columns: () => [
-    { type: 'selection', align: 'center', width: 48 },
-    { key: 'id', title: $t('page.manage.menu.id'), align: 'center' },
-    {
-      key: 'menuType',
-      title: $t('page.manage.menu.menuType'),
-      align: 'center',
-      width: 80,
-      render: row => {
-        const tagMap: Record<Api.SystemManage.MenuType, NaiveUI.ThemeColor> = { 1: 'default', 2: 'primary' };
-        const label = $t(menuTypeRecord[row.menuType]);
-        return <NTag type={tagMap[row.menuType]}>{label}</NTag>;
-      }
-    },
-    {
-      key: 'menuName',
-      title: $t('page.manage.menu.menuName'),
-      align: 'center',
-      minWidth: 120,
-      render: row => {
-        const { i18nKey, menuName } = row;
-        const label = i18nKey ? $t(i18nKey) : menuName;
-        return <span>{label}</span>;
-      }
-    },
-    {
-      key: 'icon',
-      title: $t('page.manage.menu.icon'),
-      align: 'center',
-      width: 60,
-      render: row => {
-        const icon = row.iconType === '1' ? row.icon : undefined;
-        const localIcon = row.iconType === '2' ? row.icon : undefined;
-        return (
-          <div class="flex-center">
-            <SvgIcon icon={icon} localIcon={localIcon} class="text-icon" />
-          </div>
-        );
-      }
-    },
-    { key: 'routeName', title: $t('page.manage.menu.routeName'), align: 'center', minWidth: 120 },
-    { key: 'routePath', title: $t('page.manage.menu.routePath'), align: 'center', minWidth: 120 },
-    {
-      key: 'status',
-      title: $t('page.manage.menu.menuStatus'),
-      align: 'center',
-      width: 80,
-      render: row => {
-        if (row.status === null) return null;
-        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = { 1: 'success', 2: 'warning' };
-        const label = $t(enableStatusRecord[row.status]);
-        return <NTag type={tagMap[row.status]}>{label}</NTag>;
-      }
-    },
-    {
-      key: 'hideInMenu',
-      title: $t('page.manage.menu.hideInMenu'),
-      align: 'center',
-      width: 80,
-      render: row => {
-        const hide: CommonType.YesOrNo = row.hideInMenu ? 'Y' : 'N';
-        const tagMap: Record<CommonType.YesOrNo, NaiveUI.ThemeColor> = { Y: 'error', N: 'default' };
-        const label = $t(yesOrNoRecord[hide]);
-        return <NTag type={tagMap[hide]}>{label}</NTag>;
-      }
-    },
-    { key: 'parentId', title: $t('page.manage.menu.parentId'), width: 90, align: 'center' },
-    { key: 'order', title: $t('page.manage.menu.order'), align: 'center', width: 60 },
-    {
-      key: 'operate',
-      title: $t('common.operate'),
-      align: 'center',
-      width: 230,
-      render: row => (
-        <div class="flex-center justify-end gap-8px">
-          {row.menuType === '1' && (
-            <NButton type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
-              {$t('page.manage.menu.addChildMenu')}
-            </NButton>
-          )}
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row)}>
-            {$t('common.edit')}
-          </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
-        </div>
-      )
-    }
-  ]
-});
-
-const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
-const operateType = ref<OperateType>('add');
-
-function handleAdd() {
-  operateType.value = 'add';
-  openModal();
-}
-
-async function handleBatchDelete() {
-  onBatchDeleted();
-}
-
-function handleDelete(_id: number) {
-  onDeleted();
-}
-
-const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
-
-function handleEdit(item: Api.SystemManage.Menu) {
-  operateType.value = 'edit';
-  editingData.value = { ...item };
-  openModal();
-}
-
-function handleAddChildMenu(item: Api.SystemManage.Menu) {
-  operateType.value = 'addChild';
-  editingData.value = { ...item };
-  openModal();
-}
-
 const allPages = ref<string[]>([]);
 
 async function getAllPages() {
@@ -216,11 +38,7 @@ async function getAllPages() {
   allPages.value = pages || [];
 }
 
-function init() {
-  getAllPages();
-}
-
-init();
+getAllPages();
 </script>
 
 <template>
@@ -304,53 +122,6 @@ init();
               <div class="text-24px font-semibold">{{ menuStats.hidden }}</div>
             </div>
           </div>
-        </NCard>
-      </NGi>
-    </NGrid>
-
-    <NGrid :x-gap="16" :y-gap="16" responsive="screen" item-responsive>
-      <NGi span="24 s:24 m:18">
-        <NCard
-          :title="$t('page.manage.menu.title')"
-          :bordered="false"
-          size="small"
-          class="card-wrapper sm:flex-1-hidden"
-        >
-          <template #header-extra>
-            <TableHeaderOperation
-              v-model:columns="columnChecks"
-              :disabled-delete="checkedRowKeys.length === 0"
-              :loading="loading"
-              @add="handleAdd"
-              @delete="handleBatchDelete"
-              @refresh="getData"
-            />
-          </template>
-          <NDataTable
-            v-model:checked-row-keys="checkedRowKeys"
-            :columns="columns"
-            :data="data"
-            size="small"
-            :flex-height="!appStore.isMobile"
-            :scroll-x="1088"
-            :loading="loading"
-            :row-key="row => row.id"
-            remote
-            :pagination="pagination"
-            class="sm:h-full"
-          />
-          <MenuOperateModal
-            v-model:visible="visible"
-            :operate-type="operateType"
-            :row-data="editingData"
-            :all-pages="allPages"
-            @submitted="getDataByPage"
-          />
-        </NCard>
-      </NGi>
-      <NGi span="24 s:24 m:6">
-        <NCard :bordered="false" class="card-wrapper" title="菜单树预览">
-          <NTree block-line :data="menuTreeData" default-expand-all />
         </NCard>
       </NGi>
     </NGrid>
@@ -491,6 +262,193 @@ init();
   grid-template-columns: 280px 1fr 320px;
   gap: 24px;
   min-height: 280px;
+}
+
+/* 路由配置面板样式 */
+.route-config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* 文件路径列表 */
+.file-path-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-path-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.file-path-item:hover {
+  background: #f0f1f2;
+  border-color: #d0d0d0;
+  transform: translateX(4px);
+}
+
+.path-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.path-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.path-code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  color: #2080f0;
+  background: #eff6ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.path-desc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Meta 字段表格 */
+.meta-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 140px 100px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.meta-header {
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 13px;
+  color: #333;
+}
+
+.meta-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  color: #9333ea;
+  background: #fdf4ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.meta-desc {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* 图标示例 */
+.icon-examples {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.icon-example-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+}
+
+.icon-example-item:hover {
+  background: #f0f1f2;
+  border-color: #d0d0d0;
+}
+
+.example-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.example-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.example-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.example-code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 12px;
+  color: #666;
+  background: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 左侧：总体统计 */

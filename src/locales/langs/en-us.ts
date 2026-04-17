@@ -223,7 +223,6 @@ const local: App.I18n.Schema = {
     'manage_system-monitor': 'System Monitor',
     'manage_user-behavior': 'User Behavior',
     'manage_user-detail': 'User Detail',
-    manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
     'multi-menu': 'Multi Menu',
     'multi-menu_first': 'Menu One',

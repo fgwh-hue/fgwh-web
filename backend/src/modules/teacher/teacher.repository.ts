@@ -59,8 +59,21 @@ export class TeacherRepository {
   }
 
   async create(createTeacherDto: CreateTeacherDto): Promise<TeacherResponse> {
+    const data: Prisma.TeacherCreateInput = {
+      teacherNo: createTeacherDto.teacherNo,
+      name: createTeacherDto.name,
+      gender: createTeacherDto.gender,
+      phone: createTeacherDto.phone,
+      email: createTeacherDto.email,
+      title: createTeacherDto.title,
+      department: createTeacherDto.department,
+      ...(createTeacherDto.userId && {
+        user: { connect: { id: createTeacherDto.userId } }
+      })
+    };
+
     const teacher = await this.prisma.teacher.create({
-      data: createTeacherDto,
+      data,
       include: {
         user: {
           select: {
@@ -77,9 +90,11 @@ export class TeacherRepository {
   }
 
   async findAll(queryTeacherDto: QueryTeacherDto): Promise<TeacherListResponse> {
-    const page = queryTeacherDto.current || queryTeacherDto.page || 1;
-    const pageSize = queryTeacherDto.size || queryTeacherDto.pageSize || 10;
+    const page = Number(queryTeacherDto.page || queryTeacherDto.current || 1);
+    const pageSize = Number(queryTeacherDto.pageSize || queryTeacherDto.size || 10);
     const skip = (page - 1) * pageSize;
+
+    console.log('Teacher findAll params:', { page, pageSize, skip, queryTeacherDto });
 
     const {
       teacherNo,
@@ -159,9 +174,19 @@ export class TeacherRepository {
   }
 
   async update(id: string, updateTeacherDto: UpdateTeacherDto): Promise<TeacherResponse> {
+    const data: Prisma.TeacherUpdateInput = {
+      ...(updateTeacherDto.teacherNo && { teacherNo: updateTeacherDto.teacherNo }),
+      ...(updateTeacherDto.name && { name: updateTeacherDto.name }),
+      ...(updateTeacherDto.gender !== undefined && { gender: updateTeacherDto.gender }),
+      ...(updateTeacherDto.phone !== undefined && { phone: updateTeacherDto.phone }),
+      ...(updateTeacherDto.email !== undefined && { email: updateTeacherDto.email }),
+      ...(updateTeacherDto.title !== undefined && { title: updateTeacherDto.title }),
+      ...(updateTeacherDto.department !== undefined && { department: updateTeacherDto.department })
+    };
+
     const teacher = await this.prisma.teacher.update({
       where: { id },
-      data: updateTeacherDto,
+      data,
       include: {
         user: {
           select: {

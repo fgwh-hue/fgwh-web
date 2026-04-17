@@ -33,7 +33,7 @@ async function testFindMany() {
 
   console.log('\n前5条记录:');
   data.slice(0, 5).forEach((s, i) => {
-    console.log(`${i+1}. ${s.studentNo} - ${s.name}`);
+    console.log(`${i + 1}. ${s.studentNo} - ${s.name}`);
   });
 
   await prisma.$disconnect();

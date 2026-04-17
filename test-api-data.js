@@ -15,7 +15,7 @@ async function testAPI() {
 
   console.log('\n学生列表:');
   data.records.forEach((s, i) => {
-    console.log(`${i+1}. ${s.studentNo} - ${s.studentName} - ${s.studentMajor}`);
+    console.log(`${i + 1}. ${s.studentNo} - ${s.studentName} - ${s.studentMajor}`);
   });
 }
 

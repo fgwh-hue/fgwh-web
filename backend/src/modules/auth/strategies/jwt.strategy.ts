@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import process from 'process';
 
 interface JwtPayload {
   sub: string;
@@ -20,6 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
+    console.log('[JwtStrategy] validate - payload:', payload);
     if (payload.type !== 'access') {
       throw new UnauthorizedException('无效的访问令牌');
     }

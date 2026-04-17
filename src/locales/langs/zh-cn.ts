@@ -219,7 +219,6 @@ const local: App.I18n.Schema = {
     manage: '系统管理',
     manage_student: '学生管理',
     manage_teacher: '教师管理',
-    manage_role: '角色管理',
     manage_menu: '菜单管理',
     manage_permission: '权限管理',
     'manage_system-monitor': '系统监控',
@@ -285,9 +284,9 @@ const local: App.I18n.Schema = {
         register: '注册账号',
         otherAccountLogin: '其他账号登录',
         otherLoginMode: '其他登录方式',
-        superAdmin: '学生',
+        superAdmin: '管理员',
         admin: '教师',
-        user: '管理员'
+        user: '学生'
       },
       codeLogin: {
         title: '验证码登录',

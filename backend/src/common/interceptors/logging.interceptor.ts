@@ -10,9 +10,18 @@ export class LoggingInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest<Request>();
-    const { method, url, ip } = request;
+    const { method, url, ip, body } = request;
     const userAgent = request.get('user-agent') || '';
     const startTime = Date.now();
+
+    // 记录请求体（排除敏感信息）
+    if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+      const sanitizedBody = { ...body };
+      if (sanitizedBody.password) {
+        sanitizedBody.password = '***';
+      }
+      this.logger.log(`${method} ${url} - Body: ${JSON.stringify(sanitizedBody)}`);
+    }
 
     return next.handle().pipe(
       tap({
@@ -24,6 +33,9 @@ export class LoggingInterceptor implements NestInterceptor {
         error: error => {
           const duration = Date.now() - startTime;
           this.logger.error(`${method} ${url} ERROR - ${duration}ms - ${ip} - ${error.message}`);
+          if (error.response) {
+            this.logger.error(`Error details: ${JSON.stringify(error.response)}`);
+          }
         }
       })
     );

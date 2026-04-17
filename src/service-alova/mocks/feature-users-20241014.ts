@@ -69,6 +69,46 @@ const studentMenus: Api.Route.MenuRoute[] = [
   }
 ];
 
+// 教师角色的菜单
+const teacherMenus: Api.Route.MenuRoute[] = [
+  {
+    name: 'teacher_dashboard',
+    path: '/teacher/dashboard',
+    component: 'layout.base$view.teacher_dashboard',
+    meta: {
+      title: '教师仪表板',
+      i18nKey: 'route.teacher_dashboard',
+      icon: 'mdi:school',
+      order: 1,
+      roles: ['R_TEACHER']
+    }
+  },
+  {
+    name: 'teacher_course',
+    path: '/teacher/course',
+    component: 'layout.base$view.teacher_course',
+    meta: {
+      title: '课程管理',
+      i18nKey: 'route.teacher_course',
+      icon: 'mdi:book-open-page-variant',
+      order: 2,
+      roles: ['R_TEACHER']
+    }
+  },
+  {
+    name: 'teacher_student',
+    path: '/teacher/student',
+    component: 'layout.base$view.teacher_student',
+    meta: {
+      title: '学生管理',
+      i18nKey: 'route.teacher_student',
+      icon: 'mdi:account-group',
+      order: 3,
+      roles: ['R_TEACHER']
+    }
+  }
+];
+
 // 管理员和超级管理员的菜单 (已移除 id 属性)
 const adminMenus: Api.Route.MenuRoute[] = [
   {
@@ -161,7 +201,7 @@ export default defineMock({
       routes = studentMenus;
       home = 'student_dashboard';
     } else if (userInfo.roles.includes('R_TEACHER')) {
-      routes = adminMenus;
+      routes = teacherMenus;
       home = 'teacher_dashboard';
     } else if (userInfo.roles.includes('R_ADMIN') || userInfo.roles.includes('R_SUPER')) {
       routes = adminMenus;

@@ -10,7 +10,7 @@ async function checkDB() {
 
   console.log(`总记录数: ${students.length}\n`);
   students.forEach((s, i) => {
-    console.log(`${i+1}. ${s.studentNo} - ${s.name} - ${s.major}`);
+    console.log(`${i + 1}. ${s.studentNo} - ${s.name} - ${s.major}`);
   });
 
   await prisma.$disconnect();

@@ -36,7 +36,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   home: () => import("@/views/home/index.vue"),
   manage_menu: () => import("@/views/manage/menu/index.vue"),
   manage_permission: () => import("@/views/manage/permission/index.vue"),
-  manage_role: () => import("@/views/manage/role/index.vue"),
   manage_student: () => import("@/views/manage/student/index.vue"),
   "manage_system-monitor": () => import("@/views/manage/system-monitor/index.vue"),
   manage_teacher: () => import("@/views/manage/teacher/index.vue"),

@@ -1,10 +1,5 @@
 import { alova } from '../request';
 
-/** get role list */
-export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
-  return alova.Get<Api.SystemManage.RoleList>('/systemManage/getRoleList', { params });
-}
-
 /**
  * get all roles
  *

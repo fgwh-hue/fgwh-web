@@ -1,6 +1,5 @@
 import { extname, join } from 'node:path';
 import { existsSync, mkdirSync } from 'node:fs';
-import * as process from 'node:process';
 import { BadRequestException, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';

@@ -59,8 +59,20 @@ export class HttpExceptionFilter implements ExceptionFilter {
       this.logger.error(`Unhandled error: ${exception.message}`, exception.stack);
     }
 
+    // 根据HTTP状态码设置错误代码
+    let errorCode = '9999';
+    if (status === HttpStatus.BAD_REQUEST) {
+      errorCode = '1001';
+    } else if (status === HttpStatus.UNAUTHORIZED) {
+      errorCode = '8888';
+    } else if (status === HttpStatus.FORBIDDEN) {
+      errorCode = '8889';
+    } else if (status === HttpStatus.NOT_FOUND) {
+      errorCode = '1002';
+    }
+
     const errorResponse: ErrorResponse = {
-      code: '0000',
+      code: errorCode,
       message,
       timestamp: new Date().toISOString(),
       path: request.url

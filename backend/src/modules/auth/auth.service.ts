@@ -1,7 +1,6 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import type { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import process from 'process';
 import type { PrismaService } from '../../database/prisma.service';
 import type { LoginDto } from './dto/login.dto';
 import type { RegisterDto } from './dto/register.dto';
@@ -118,7 +117,7 @@ export class AuthService {
       }
 
       return this.generateTokens(user.id, user.email, user.roleCode);
-    } catch (_error) {
+    } catch (error) {
       throw new UnauthorizedException('刷新令牌无效');
     }
   }
@@ -131,7 +130,40 @@ export class AuthService {
     return { message: '退出登录成功' };
   }
 
-  private async generateTokens(userId: string, email: string, _roleCode: string) {
+  async getCurrentUser(user: { id: string; email: string }) {
+    const userData = await this.prisma.user.findUnique({
+      where: { id: user.id },
+      include: { student: true, teacher: true }
+    });
+
+    if (!userData) {
+      throw new UnauthorizedException('用户不存在');
+    }
+
+    // 将数据库的角色代码转换为前端期望的格式
+    const roleMapping: Record<string, string> = {
+      SUPER_ADMIN: 'R_SUPER',
+      ADMIN: 'R_ADMIN',
+      TEACHER: 'R_TEACHER',
+      STUDENT: 'R_STUDENT'
+    };
+
+    const frontendRole = roleMapping[userData.roleCode] || 'R_STUDENT';
+
+    return {
+      userId: userData.id,
+      userName: userData.nickname || userData.email,
+      roles: [frontendRole],
+      buttons: [],
+      email: userData.email,
+      nickname: userData.nickname,
+      avatar: userData.avatar,
+      student: userData.student,
+      teacher: userData.teacher
+    };
+  }
+
+  private async generateTokens(userId: string, email: string, roleCode: string) {
     const payload = { sub: userId, email, type: 'access' };
 
     const accessToken = this.jwtService.sign(payload);

@@ -1,5 +1,5 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '../../common/decorators/public.decorator';
 import type { AuthService } from './auth.service';
 import type { LoginDto } from './dto/login.dto';
@@ -7,6 +7,7 @@ import type { RegisterDto } from './dto/register.dto';
 
 @ApiTags('认证')
 @Controller('auth')
+@ApiBearerAuth()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -25,6 +26,13 @@ export class AuthController {
   @ApiResponse({ status: 200, description: '登录成功' })
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get('me')
+  @ApiOperation({ summary: '获取当前用户信息' })
+  async getCurrentUser(@Request() req: any) {
+    console.log('[AuthController] getCurrentUser - req.user:', req.user);
+    return this.authService.getCurrentUser(req.user);
   }
 
   @Post('refresh')

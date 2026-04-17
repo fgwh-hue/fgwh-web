@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RoleCode } from '../role/entities/role.entity';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { ScoreService } from './score.service';
+import type { ScoreService } from './score.service';
 import type { CreateScoreDto } from './dto/create-score.dto';
 import type { UpdateScoreDto } from './dto/update-score.dto';
 import type { QueryScoreDto } from './dto/query-score.dto';

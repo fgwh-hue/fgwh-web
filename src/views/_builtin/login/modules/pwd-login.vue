@@ -15,27 +15,27 @@ const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
 
 interface FormModel {
-  userName: string;
+  email: string;
   password: string;
 }
 
 const model: FormModel = reactive({
-  userName: 'student',
-  password: '123456'
+  email: 'student1@example.com',
+  password: 'password'
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
   const { formRules } = useFormRules();
 
   return {
-    userName: formRules.userName,
+    email: formRules.email,
     password: formRules.pwd
   };
 });
 
 async function handleSubmit() {
   await validate();
-  await authStore.login(model.userName, model.password);
+  await authStore.login(model.email, model.password);
 }
 
 type AccountKey = 'super' | 'admin' | 'user';
@@ -43,40 +43,40 @@ type AccountKey = 'super' | 'admin' | 'user';
 interface Account {
   key: AccountKey;
   label: string;
-  userName: string;
+  email: string;
   password: string;
 }
 
 const accounts = computed<Account[]>(() => [
   {
-    key: 'super',
-    label: $t('page.login.pwdLogin.superAdmin'),
-    userName: 'student',
-    password: '123456'
+    key: 'user',
+    label: $t('page.login.pwdLogin.user'),
+    email: 'student1@example.com',
+    password: 'password'
   },
   {
     key: 'admin',
     label: $t('page.login.pwdLogin.admin'),
-    userName: 'teacher',
-    password: '123456'
+    email: 'teacher1@example.com',
+    password: 'password'
   },
   {
-    key: 'user',
-    label: $t('page.login.pwdLogin.user'),
-    userName: 'Admin',
-    password: '123456'
+    key: 'super',
+    label: $t('page.login.pwdLogin.superAdmin'),
+    email: 'admin@example.com',
+    password: 'password'
   }
 ]);
 
 async function handleAccountLogin(account: Account) {
-  await authStore.login(account.userName, account.password);
+  await authStore.login(account.email, account.password);
 }
 </script>
 
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
-    <NFormItem path="userName">
-      <NInput v-model:value="model.userName" :placeholder="$t('page.login.common.userNamePlaceholder')" />
+    <NFormItem path="email">
+      <NInput v-model:value="model.email" placeholder="请输入邮箱" />
     </NFormItem>
     <NFormItem path="password">
       <NInput

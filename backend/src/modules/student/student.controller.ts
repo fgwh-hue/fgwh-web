@@ -17,7 +17,19 @@ export class StudentController {
   @Post()
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.ADMIN, RoleCode.TEACHER)
   @ApiOperation({ summary: '创建学生' })
-  create(@Body() createStudentDto: CreateStudentDto): Promise<StudentResponse> {
+  create(@Body() body: any): Promise<StudentResponse> {
+    // 字段映射: 前端字段名 -> 后端字段名
+    const createStudentDto: CreateStudentDto = {
+      studentNo: body.studentNo,
+      name: body.studentName,
+      gender: body.studentGender === 1 ? '男' : body.studentGender === 2 ? '女' : undefined,
+      phone: body.studentPhone,
+      email: body.studentEmail,
+      major: body.studentMajor,
+      className: body.studentClass,
+      enrollYear: body.enrollYear,
+      userId: body.userId
+    };
     return this.studentService.create(createStudentDto);
   }
 
@@ -37,7 +49,18 @@ export class StudentController {
   @Patch(':id')
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.ADMIN, RoleCode.TEACHER)
   @ApiOperation({ summary: '更新学生' })
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStudentDto: UpdateStudentDto): Promise<StudentResponse> {
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() body: any): Promise<StudentResponse> {
+    // 字段映射: 前端字段名 -> 后端字段名
+    const updateStudentDto: UpdateStudentDto = {
+      studentNo: body.studentNo,
+      name: body.studentName,
+      gender: body.studentGender === 1 ? '男' : body.studentGender === 2 ? '女' : undefined,
+      phone: body.studentPhone,
+      email: body.studentEmail,
+      major: body.studentMajor,
+      className: body.studentClass,
+      enrollYear: body.enrollYear
+    };
     return this.studentService.update(id, updateStudentDto);
   }
 

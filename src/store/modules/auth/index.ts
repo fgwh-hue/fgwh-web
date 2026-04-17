@@ -98,25 +98,23 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   /**
    * Login
    *
-   * @param userName User name
+   * @param email Email address
    * @param password Password
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(userName: string, password: string, redirect = true) {
+  async function login(email: string, password: string, redirect = true) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchLogin(userName, password);
+    const { data: loginToken, error } = await fetchLogin(email, password);
 
     if (!error) {
       const pass = await loginByToken(loginToken);
 
       if (pass) {
-        // Check if the tab needs to be cleared
         const isClear = checkTabClear();
         let needRedirect = redirect;
 
         if (isClear) {
-          // If the tab needs to be cleared,it means we don't need to redirect.
           needRedirect = false;
         }
         await redirectFromLogin(needRedirect);
@@ -135,16 +133,18 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   async function loginByToken(loginToken: Api.Auth.LoginToken) {
-    // 1. stored in the localStorage, the later requests need it in headers
-    localStg.set('token', loginToken.token);
-    localStg.set('refreshToken', loginToken.refreshToken);
+    const newToken = (loginToken as any).accessToken || loginToken.token;
+    const refreshToken = (loginToken as any).refreshToken || loginToken.refreshToken;
 
-    // 2. get user info
+    localStg.set('token', newToken);
+    localStg.set('refreshToken', refreshToken);
+
+    // Update the reactive token ref
+    token.value = newToken;
+
     const pass = await getUserInfo();
 
     if (pass) {
-      token.value = loginToken.token;
-
       return true;
     }
 
@@ -168,6 +168,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const hasToken = getToken();
 
     if (hasToken) {
+      // Update the reactive token ref
+      token.value = hasToken;
       const pass = await getUserInfo();
 
       if (!pass) {

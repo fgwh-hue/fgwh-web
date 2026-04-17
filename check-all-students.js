@@ -7,7 +7,7 @@ async function checkAll() {
   const all = await prisma.student.findMany();
   console.log(`数据库中共有 ${all.length} 条学生记录:\n`);
   all.forEach((s, i) => {
-    console.log(`${i+1}. ${s.studentNo} - ${s.name} - ${s.major}`);
+    console.log(`${i + 1}. ${s.studentNo} - ${s.name} - ${s.major}`);
   });
   await prisma.$disconnect();
 }

@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
+  log: ['query', 'info', 'warn', 'error']
 });
 
 async function diagnosePrisma() {
@@ -20,7 +19,7 @@ async function diagnosePrisma() {
   });
   console.log(`   查询到 ${students.length} 条记录`);
   students.forEach((s, i) => {
-    console.log(`   ${i+1}. ${s.studentNo} - ${s.name}`);
+    console.log(`   ${i + 1}. ${s.studentNo} - ${s.name}`);
   });
 
   // 执行 count 查询
@@ -36,7 +35,7 @@ async function diagnosePrisma() {
   });
   console.log(`   查询到 ${filtered.length} 条记录`);
   filtered.forEach((s, i) => {
-    console.log(`   ${i+1}. ${s.studentNo} - ${s.name}`);
+    console.log(`   ${i + 1}. ${s.studentNo} - ${s.name}`);
   });
 
   await prisma.$disconnect();

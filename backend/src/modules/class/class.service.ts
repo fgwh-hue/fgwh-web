@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ClassRepository } from './class.repository';
+import type { ClassRepository } from './class.repository';
 import type { CreateClassDto } from './dto/create-class.dto';
 import type { UpdateClassDto } from './dto/update-class.dto';
 import type { QueryClassDto } from './dto/query-class.dto';

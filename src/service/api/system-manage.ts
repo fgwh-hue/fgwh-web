@@ -1,15 +1,6 @@
 import { request } from '../request';
 // import { getMockStudentList, getMockTeacherList } from '../mock';
 
-/** get role list */
-export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
-  return request<Api.SystemManage.RoleList>({
-    url: '/systemManage/getRoleList',
-    method: 'get',
-    params
-  });
-}
-
 /**
  * get all roles
  *
@@ -33,6 +24,7 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 
 /** get student list */
 export function fetchGetStudentList(params?: Api.SystemManage.StudentSearchParams) {
+  console.log('fetchGetStudentList params:', JSON.stringify(params, null, 2));
   return request<Api.SystemManage.StudentList>({
     url: '/students',
     method: 'get',

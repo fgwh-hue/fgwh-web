@@ -6,6 +6,7 @@ import { useAppStore } from './store/modules/app';
 import { useThemeStore } from './store/modules/theme';
 import { useAuthStore } from './store/modules/auth';
 import { naiveDateLocales, naiveLocales } from './locales/naive';
+import FluidCursor from './components/ui/fluid-cursor/FluidCursor.vue';
 
 defineOptions({
   name: 'App'
@@ -58,6 +59,7 @@ const watermarkProps = computed<WatermarkProps>(() => {
     <AppProvider>
       <RouterView class="bg-layout" />
       <NWatermark v-if="themeStore.watermark.visible" v-bind="watermarkProps" />
+      <FluidCursor />
     </AppProvider>
   </NConfigProvider>
 </template>

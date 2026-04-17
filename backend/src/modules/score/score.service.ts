@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { ScoreRepository } from './score.repository';
+import type { ScoreRepository } from './score.repository';
 import type { CreateScoreDto } from './dto/create-score.dto';
 import type { UpdateScoreDto } from './dto/update-score.dto';
 import type { QueryScoreDto } from './dto/query-score.dto';

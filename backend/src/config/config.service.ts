@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import process from 'process';
 
 @Injectable()
 export class ConfigService {
@@ -8,7 +7,7 @@ export class ConfigService {
   }
 
   get port(): number {
-    return parseInt(process.env.PORT || '3001', 10);
+    return Number.parseInt(process.env.PORT || '3001', 10);
   }
 
   get databaseUrl(): string {
@@ -20,7 +19,7 @@ export class ConfigService {
   }
 
   get redisPort(): number {
-    return parseInt(process.env.REDIS_PORT || '6379', 10);
+    return Number.parseInt(process.env.REDIS_PORT || '6379', 10);
   }
 
   get jwtSecret(): string {

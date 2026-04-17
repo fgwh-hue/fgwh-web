@@ -4,7 +4,7 @@ import { Public } from '../../common/decorators/public.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RoleCode } from '../role/entities/role.entity';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { AnnouncementService } from './announcement.service';
+import type { AnnouncementService } from './announcement.service';
 import type { CreateAnnouncementDto } from './dto/create-announcement.dto';
 import type { UpdateAnnouncementDto } from './dto/update-announcement.dto';
 import type { QueryAnnouncementDto } from './dto/query-announcement.dto';

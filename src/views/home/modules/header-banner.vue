@@ -39,14 +39,14 @@ const statisticData = computed<StatisticData[]>(() => [
 
 const greetingName = computed(() => {
   const roles = authStore.userInfo.roles;
-  if (roles.includes('R_STUDENT')) {
-    return $t('page.home.greetingStudent');
+  if (roles.includes('R_SUPER') || roles.includes('R_ADMIN')) {
+    return $t('page.home.greetingAdmin');
   }
   if (roles.includes('R_TEACHER')) {
     return $t('page.home.greetingTeacher');
   }
-  if (roles.includes('R_ADMIN')) {
-    return $t('page.home.greetingAdmin');
+  if (roles.includes('R_STUDENT')) {
+    return $t('page.home.greetingStudent');
   }
   return authStore.userInfo.userName;
 });
