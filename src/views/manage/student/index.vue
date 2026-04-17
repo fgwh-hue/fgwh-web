@@ -22,9 +22,9 @@ const {
   getDataByPage,
   loading,
   mobilePagination,
+  pagination,
   searchParams,
-  resetSearchParams,
-  total
+  resetSearchParams
 } = useTable({
   apiFn: fetchGetStudentList,
   showTotal: true,
@@ -119,15 +119,15 @@ const {
         }
 
         const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
-          1: 'info',
-          2: 'warning'
+          '1': 'info',
+          '2': 'warning'
         };
 
         const genderKey = String(row.studentGender ?? '');
         const label = genderKey ? $t(userGenderRecord[genderKey] ?? '') : '-';
 
         return (
-          <NTag type={tagMap[row.studentGender] ?? 'default'} size="small">
+          <NTag type={tagMap[genderKey as Api.SystemManage.UserGender] ?? 'default'} size="small">
             {label}
           </NTag>
         );
@@ -169,15 +169,15 @@ const {
         }
 
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-          1: 'success',
-          2: 'warning'
+          '1': 'success',
+          '2': 'warning'
         };
 
         const statusKey = String(row.status ?? '');
         const statusLabel = statusKey ? $t(enableStatusRecord[statusKey] ?? '') : '-';
 
         return (
-          <NTag type={tagMap[row.status] ?? 'default'} size="small" bordered={false}>
+          <NTag type={tagMap[statusKey as Api.Common.EnableStatus] ?? 'default'} size="small" bordered={false}>
             {statusLabel}
           </NTag>
         );
@@ -313,7 +313,7 @@ function viewProfile(id: string) {
     <NCard title="学生列表" :bordered="false" size="small" class="card-wrapper sm:flex-1-hidden">
       <template #header-extra>
         <div class="flex items-center gap-12px">
-          <span class="text-14px text-gray-400">共 {{ total }} 条</span>
+          <span class="text-14px text-gray-400">共 {{ pagination.itemCount }} 条</span>
           <TableHeaderOperation
             v-model:columns="columnChecks"
             :disabled-delete="checkedRowKeys.length === 0"
@@ -326,7 +326,7 @@ function viewProfile(id: string) {
       </template>
       <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
+        :columns="columns as any"
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"

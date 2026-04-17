@@ -26,15 +26,17 @@ const genderLabel = computed(() => {
 const statusTagType = computed(() => {
   if (!props.studentData?.status) return 'default';
   const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-    1: 'success',
-    2: 'warning'
+    '1': 'success',
+    '2': 'warning'
   };
-  return tagMap[props.studentData.status];
+  const statusKey = String(props.studentData.status);
+  return tagMap[statusKey as Api.Common.EnableStatus] || 'default';
 });
 
 const statusLabel = computed(() => {
   if (!props.studentData?.status) return '-';
-  return $t(enableStatusRecord[props.studentData.status]);
+  const statusKey = String(props.studentData.status);
+  return $t(enableStatusRecord[statusKey] || '');
 });
 
 function close() {

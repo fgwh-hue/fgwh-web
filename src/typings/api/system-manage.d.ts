@@ -151,6 +151,18 @@ declare namespace Api {
     /** teacher list */
     type TeacherList = Common.PaginatingQueryRecord<Teacher>;
 
+    /** teacher form data */
+    type TeacherForm = Pick<
+      Api.SystemManage.Teacher,
+      | 'teacherName'
+      | 'teacherGender'
+      | 'teacherNo'
+      | 'teacherEmail'
+      | 'teacherPhone'
+      | 'teacherTitle'
+      | 'teacherDepartment'
+    > & { status?: boolean };
+
     /**
      * menu type
      *

@@ -100,7 +100,7 @@ const adminMenus: Api.Route.MenuRoute[] = [
         component: 'view.manage_user',
         meta: {
           title: '用户管理',
-          i18nKey: 'route.manage_user',
+          i18nKey: 'route.manage',
           icon: 'ic:round-manage-accounts',
           order: 1,
           roles: ['R_ADMIN']

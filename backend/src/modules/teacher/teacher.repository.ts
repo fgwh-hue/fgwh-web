@@ -38,6 +38,10 @@ export class TeacherRepository {
 
   private transformTeacher(teacher: any): TeacherResponse {
     const genderMap: Record<string, number> = { 男: 1, 女: 2, M: 1, F: 2 };
+    let status = 1;
+    if (teacher.user?.status === false) {
+      status = 2;
+    }
     return {
       id: teacher.id,
       teacherNo: teacher.teacherNo,
@@ -47,7 +51,7 @@ export class TeacherRepository {
       teacherEmail: teacher.email,
       teacherTitle: teacher.title,
       teacherDepartment: teacher.department,
-      status: teacher.user?.status === true ? 1 : teacher.user?.status === false ? 2 : 1,
+      status,
       createdAt: teacher.createdAt,
       updatedAt: teacher.updatedAt,
       user: teacher.user

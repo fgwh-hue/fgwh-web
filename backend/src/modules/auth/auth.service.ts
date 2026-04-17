@@ -1,6 +1,7 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import type { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import process from 'process';
 import type { PrismaService } from '../../database/prisma.service';
 import type { LoginDto } from './dto/login.dto';
 import type { RegisterDto } from './dto/register.dto';
@@ -117,7 +118,7 @@ export class AuthService {
       }
 
       return this.generateTokens(user.id, user.email, user.roleCode);
-    } catch (error) {
+    } catch (_error) {
       throw new UnauthorizedException('刷新令牌无效');
     }
   }
@@ -130,7 +131,7 @@ export class AuthService {
     return { message: '退出登录成功' };
   }
 
-  private async generateTokens(userId: string, email: string, roleCode: string) {
+  private async generateTokens(userId: string, email: string, _roleCode: string) {
     const payload = { sub: userId, email, type: 'access' };
 
     const accessToken = this.jwtService.sign(payload);

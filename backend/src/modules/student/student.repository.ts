@@ -12,6 +12,10 @@ export class StudentRepository {
 
   private transformStudent(student: any): StudentResponse {
     const genderMap: Record<string, number> = { 男: 1, 女: 2, M: 1, F: 2 };
+    let status = 1;
+    if (student.user?.status === false) {
+      status = 2;
+    }
     return {
       id: student.id,
       studentNo: student.studentNo,
@@ -22,7 +26,7 @@ export class StudentRepository {
       studentMajor: student.major,
       studentClass: student.className,
       enrollYear: student.enrollYear,
-      status: student.user?.status === true ? 1 : student.user?.status === false ? 2 : 1,
+      status,
       createdAt: student.createdAt,
       updatedAt: student.updatedAt,
       user: student.user

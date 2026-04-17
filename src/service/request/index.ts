@@ -307,7 +307,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
                   component: 'view.manage_user',
                   meta: {
                     title: '用户管理',
-                    i18nKey: 'route.manage_user',
+                    i18nKey: 'route.manage',
                     icon: 'ic:round-manage-accounts',
                     order: 1,
                     roles: ['R_ADMIN']
@@ -446,8 +446,16 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
 
       return null;
     },
-    transformBackendResponse(response) {
-      return response.data.result || response.data.data;
+    transformBackendResponse(response: AxiosResponse) {
+      const data = response.data;
+      if (typeof data === 'object' && data !== null) {
+        if ('result' in data) {
+          return data.result;
+        } else if ('data' in data) {
+          return data.data;
+        }
+      }
+      return data;
     },
     onError(error) {
       // when the request is fail, you can show error message
@@ -502,8 +510,12 @@ export const demoRequest = createRequest<App.Service.DemoResponse>(
       // when the backend response code is not "200", it means the request is fail
       // for example: the token is expired, refresh token and retry request
     },
-    transformBackendResponse(response) {
-      return response.data.result;
+    transformBackendResponse(response: AxiosResponse) {
+      const data = response.data;
+      if (typeof data === 'object' && data !== null && 'result' in data) {
+        return data.result;
+      }
+      return data;
     },
     onError(error) {
       // when the request is fail, you can show error message

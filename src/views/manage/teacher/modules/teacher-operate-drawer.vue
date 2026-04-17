@@ -71,7 +71,9 @@ type RuleKey = Extract<keyof Model, 'teacherName' | 'teacherEmail' | 'teacherPho
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   teacherName: defaultRequiredRule,
-  teacherNo: defaultRequiredRule
+  teacherNo: defaultRequiredRule,
+  teacherPhone: {},
+  teacherEmail: {}
 };
 
 function handleInitModel() {
@@ -91,12 +93,13 @@ async function handleSubmit() {
     await validate();
     const data = {
       teacherNo: model.value.teacherNo,
-      name: model.value.teacherName,
-      gender: model.value.teacherGender || undefined,
-      phone: model.value.teacherPhone || undefined,
-      email: model.value.teacherEmail || undefined,
-      title: model.value.teacherTitle || undefined,
-      department: model.value.teacherDepartment || undefined
+      teacherName: model.value.teacherName,
+      teacherGender: model.value.teacherGender || undefined,
+      teacherPhone: model.value.teacherPhone || undefined,
+      teacherEmail: model.value.teacherEmail || undefined,
+      teacherTitle: model.value.teacherTitle || undefined,
+      teacherDepartment: model.value.teacherDepartment || undefined,
+      status: model.value.status || 1
     };
 
     if (props.operateType === 'add') {
@@ -110,7 +113,6 @@ async function handleSubmit() {
     closeDrawer();
     emit('submitted');
   } catch (error: any) {
-    console.error('Failed to submit teacher:', error);
     const errors = error?.errors || [];
     const message = errors.length > 0 ? errors.map((e: any) => e.message).join(', ') : '操作失败';
     window.$message?.error(message || '操作失败');

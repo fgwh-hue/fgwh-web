@@ -72,7 +72,9 @@ type RuleKey = Extract<keyof Model, 'studentName' | 'studentEmail' | 'studentPho
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   studentName: defaultRequiredRule,
-  studentNo: defaultRequiredRule
+  studentNo: defaultRequiredRule,
+  studentPhone: {},
+  studentEmail: {}
 };
 
 function handleInitModel() {
@@ -94,12 +96,13 @@ async function handleSubmit() {
 
     const data = {
       studentNo: model.value.studentNo,
-      name: model.value.studentName,
-      gender: model.value.studentGender || undefined,
-      phone: model.value.studentPhone || undefined,
-      email: model.value.studentEmail || undefined,
-      major: model.value.studentMajor || undefined,
-      className: model.value.studentClass || undefined
+      studentName: model.value.studentName,
+      studentGender: model.value.studentGender || undefined,
+      studentPhone: model.value.studentPhone || undefined,
+      studentEmail: model.value.studentEmail || undefined,
+      studentMajor: model.value.studentMajor || undefined,
+      studentClass: model.value.studentClass || undefined,
+      status: model.value.status || 1
     };
 
     if (props.operateType === 'add') {
@@ -113,7 +116,6 @@ async function handleSubmit() {
     closeDrawer();
     emit('submitted');
   } catch (error: any) {
-    console.error('Failed to submit student:', error);
     const errors = error?.errors || [];
     const message = errors.length > 0 ? errors.map((e: any) => e.message).join(', ') : '操作失败';
     window.$message?.error(message || '操作失败');

@@ -1,13 +1,13 @@
 export class ScoreResponse {
-  id: string;
+  id: string = '';
   score?: number | null;
   grade?: string | null;
   semester?: string | null;
   examDate?: Date | null;
-  status: number;
+  status: number = 1;
   remarks?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date = new Date();
+  updatedAt: Date = new Date();
   studentId?: string;
   courseId?: string;
   createdBy?: string | null;
@@ -24,22 +24,22 @@ export class ScoreResponse {
 }
 
 export class ScoreListResponse {
-  records: ScoreResponse[];
-  total: number;
-  current: number;
-  size: number;
+  records: ScoreResponse[] = [];
+  total: number = 0;
+  current: number = 1;
+  size: number = 10;
 }
 
 export class ScoreStatistics {
-  totalCount: number;
-  averageScore: number;
-  highestScore: number;
-  lowestScore: number;
-  passCount: number;
-  failCount: number;
-  passRate: number;
+  totalCount: number = 0;
+  averageScore: number = 0;
+  highestScore: number = 0;
+  lowestScore: number = 0;
+  passCount: number = 0;
+  failCount: number = 0;
+  passRate: number = 0;
   gradeDistribution: {
     grade: string;
     count: number;
-  }[];
+  }[] = [];
 }

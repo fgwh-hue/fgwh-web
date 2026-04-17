@@ -10,4 +10,5 @@ import { TeacherRepository } from './teacher.repository';
   providers: [TeacherService, TeacherRepository],
   exports: [TeacherService]
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class TeacherModule {}

@@ -8,4 +8,5 @@ import { UserRepository } from './user.repository';
   providers: [UserService, UserRepository],
   exports: [UserService]
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class UserModule {}

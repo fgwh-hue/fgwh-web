@@ -429,6 +429,7 @@ declare namespace App {
             loginOrRegister: string;
             userNamePlaceholder: string;
             phonePlaceholder: string;
+            emailPlaceholder: string;
             codePlaceholder: string;
             passwordPlaceholder: string;
             confirmPasswordPlaceholder: string;
@@ -438,6 +439,7 @@ declare namespace App {
             validateSuccess: string;
             loginSuccess: string;
             welcomeBack: string;
+            registerSuccess: string;
           };
           pwdLogin: {
             title: string;
