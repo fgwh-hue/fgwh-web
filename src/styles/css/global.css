@@ -7,7 +7,6 @@
 @import './nprogress.css';
 @import './transition.css';
 @import './interactions.css';
-@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
